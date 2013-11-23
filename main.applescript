@@ -34,14 +34,16 @@ on idle
 					set VPN to null
 				end try
 				if VPN is not null then
-					set isConnected to false
-					try
-						set isConnected to (VPN is connected)
-					on error errStr
-						log serviceName & ": " & errStr
-					end try
-					if isConnected then
-						return 30
+					if active of VPN is true then
+						set isConnected to false
+						try
+							set isConnected to (VPN is connected)
+						on error errStr
+							log serviceName & ": " & errStr
+						end try
+						if isConnected then
+							return 30
+						end if
 					end if
 				end if
 			end repeat
@@ -54,10 +56,12 @@ on idle
 					set VPN to null
 				end try
 				if VPN is not null then
-					connect VPN
-					delay 30
-					if isOnline() then
-						return 30
+					if active of VPN is true then
+						connect VPN
+						delay 30
+						if isOnline() then
+							return 30
+						end if
 					end if
 				end if
 			end repeat
