@@ -59,9 +59,11 @@ on idle
 					if active of VPN is true then
 						connect VPN
 						delay 30
-						if isOnline() then
+						try
+							do shell script "curl -s -I --connect-timeout 10 http://sample.appspot.com/"
 							return 30
-						end if
+						on error errStr
+						end try
 					end if
 				end if
 			end repeat
