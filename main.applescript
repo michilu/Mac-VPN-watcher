@@ -6,6 +6,14 @@ on isOnline()
 		return false
 	end try
 end isOnline
+on setOrderService()
+	set orderVPN to do shell script "networksetup -listnetworkserviceorder |grep '^([0-9]'|nl|grep '^ *[0-9]*	*([0-9]*) VPN.*$'|tail -n 1|awk '{print $1}'"
+	set orderWiFi to do shell script "networksetup -listnetworkserviceorder |grep '^([0-9]'|nl|grep '^ *[0-9]*	*([0-9]*) Wi-Fi$'|awk '{print $1}'"
+	if not orderVPN < orderWiFi then
+		do shell script "echo networksetup -ordernetworkservices `networksetup -listnetworkserviceorder |grep '^([0-9]'|sed -e 's/([0-9]*) //g'|grep -v '^Wi-Fi$'|sed 's/.*/\"&\"/'|tr '
+' ' '` Wi-Fi|sh"
+	end if
+end setOrderService
 
 on idle
 	set status to do shell script "/usr/sbin/networksetup -getairportpower en0 | awk '{ print $4 }'"
@@ -19,6 +27,7 @@ on idle
 	if isOnline() then
 		return 30
 	end if
+	setOrderService()
 	set listnetwork to do shell script "networksetup -listnetworkserviceorder |grep '^([0-9]'|sed -e 's/([0-9]*) //g'|grep '^VPN'|tr '
 ' '/'"
 	set text item delimiters of AppleScript to "/"
