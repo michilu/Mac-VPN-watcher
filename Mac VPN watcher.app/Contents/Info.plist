@@ -27,6 +27,8 @@
 	</dict>
 	<key>LSRequiresCarbon</key>
 	<true/>
+	<key>LSUIElement</key>
+	<true/>
 	<key>WindowState</key>
 	<dict>
 		<key>dividerCollapsed</key>
