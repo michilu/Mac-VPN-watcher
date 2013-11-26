@@ -28,7 +28,7 @@ for mirror in ${VPNGATE_MIRRORS}; do
 VPNGATE_IP_L2TP=`
   curl -f -s --connect-timeout ${CONNECT_TIMEOUT} ${mirror}/en/ -H 'Accept-Encoding: gzip,deflate,sdch' -H 'Cache-Control: max-age=0' --compressed|\
   grep "^<td class='vg_table_row_[01]' style='text-align: center;'><img src='../images/flags/"|\
-  grep L2TP/IPsec|sed -e "s/.*>\([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\)<.*/\2:\1/g"\
+  grep L2TP/IPsec|sed -e "s/.*flags\/\(.\{2\}\)\.png.*<\/td>.*>\([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\)<.*/\2:\1/g"\
   `
 if [ ${PIPESTATUS[0]} -ne 0 ]; then
   continue
@@ -55,7 +55,9 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 
 uuid0=`uuidgen`
 index=0
-for ip in ${input}; do
+for host in ${input}; do
+  ip=`echo "${host}"|awk -F: '{print $1}'`
+  country=`echo "${host}"|awk -F: '{print $2}'`
   uuid1=`uuidgen`
   uuid2=`uuidgen`
   echo "
@@ -102,7 +104,7 @@ for ip in ${input}; do
 			<key>Proxies</key>
 			<dict/>
 			<key>UserDefinedName</key>
-			<string>VPN Gate ${index}</string>
+			<string>VPN Gate ${index}: ${country}</string>
 			<key>VPNType</key>
 			<string>L2TP</string>
 		</dict>
