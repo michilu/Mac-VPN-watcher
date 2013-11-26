@@ -15,13 +15,21 @@ name=VPN-Gate-L2TP-`date +%Y-%m-%d`
 output=${name}.mobileconfig
 CONNECT_TIMEOUT=10
 
-VPNGATE_MIRRORS=`curl -f -s ${hostname}/en/sites.aspx|grep "^<li><strong><span style='font-size: medium'><a href='"|sed -e "s/<li><strong><span style='font-size: medium'><a href='\([^']*\)\/en\/.*/\1/g"`
+VPNGATE_MIRRORS=`\
+  curl -f -s ${hostname}/en/sites.aspx|\
+  grep "^<li><strong><span style='font-size: medium'><a href='"|\
+  sed -e "s/<li><strong><span style='font-size: medium'><a href='\([^']*\)\/en\/.*/\1/g"\
+  `
 if [ ${PIPESTATUS[0]} -ne 0 ]; then
   exit ${PIPESTATUS[0]}
 fi
 
 for mirror in ${VPNGATE_MIRRORS}; do
-VPNGATE_IP_L2TP=`curl -f -s --connect-timeout ${CONNECT_TIMEOUT} ${mirror}/en/ -H 'Accept-Encoding: gzip,deflate,sdch' -H 'Cache-Control: max-age=0' --compressed|grep "^<td class='vg_table_row_[01]' style='text-align: center;'><img src='../images/flags/"|grep L2TP/IPsec|sed -e 's/.*>\([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\)<.*/\1/g'`
+VPNGATE_IP_L2TP=`
+  curl -f -s --connect-timeout ${CONNECT_TIMEOUT} ${mirror}/en/ -H 'Accept-Encoding: gzip,deflate,sdch' -H 'Cache-Control: max-age=0' --compressed|\
+  grep "^<td class='vg_table_row_[01]' style='text-align: center;'><img src='../images/flags/"|\
+  grep L2TP/IPsec|sed -e "s/.*>\([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\)<.*/\2:\1/g"\
+  `
 if [ ${PIPESTATUS[0]} -ne 0 ]; then
   continue
 fi
