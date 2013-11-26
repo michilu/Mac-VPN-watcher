@@ -52,17 +52,17 @@ for ip in ${input}; do
 			<key>PayloadDisplayName</key>
 			<string>VPN</string>
 			<key>PayloadIdentifier</key>
-      <string>vpngate-l2tp-mobileconfig.CF99BEE7-8930-4DA7-B41F-6B4DEB5D9C57.com.apple.vpn.managed.${uuid1}</string>
+			<string>vpngate-l2tp-mobileconfig.CF99BEE7-8930-4DA7-B41F-6B4DEB5D9C57.com.apple.vpn.managed.${uuid1}</string>
 			<key>PayloadType</key>
 			<string>com.apple.vpn.managed</string>
 			<key>PayloadUUID</key>
-	    <string>${uuid2}</string>
+			<string>${uuid2}</string>
 			<key>PayloadVersion</key>
 			<real>1</real>
 			<key>Proxies</key>
 			<dict/>
 			<key>UserDefinedName</key>
-	    <string>VPN Gate ${index}</string>
+			<string>VPN Gate ${index}</string>
 			<key>VPNType</key>
 			<string>L2TP</string>
 		</dict>
