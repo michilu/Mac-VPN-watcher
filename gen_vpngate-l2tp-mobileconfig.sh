@@ -29,7 +29,11 @@ VPNGATE_IP_L2TP=`
   curl -f -s --connect-timeout ${CONNECT_TIMEOUT} ${mirror}/en/ -H 'Accept-Encoding: gzip,deflate,sdch' -H 'Cache-Control: max-age=0' --compressed|\
   grep "^<td class='vg_table_row_[01]' style='text-align: center;'><img src='../images/flags/"|\
   grep L2TP/IPsec|\
-  sed -e "s/.*flags\/\(.\{2\}\)\.png.*<\/td>.*>\([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\)<.*/\2:\1/g"\
+  sed 's/$//g'|\
+  sed -e "s/.*flags\/\(.\{2\}\)\.png.*<\/td>.*>\([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\)<.*>\([0-9,]*\)<\/span><\/b><\/td><\/tr>$/\3:\2:\1/g"|\
+  sed 's/,//g'|\
+  sort -nr|\
+  sed 's/^[0-9]*://g'
   `
 if [ ${PIPESTATUS[0]} -ne 0 ]; then
   continue
@@ -57,8 +61,8 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 uuid0=`uuidgen`
 index=0
 for host in ${input}; do
-  ip=`echo "${host}"|awk -F: '{print $1}'`
-  country=`echo "${host}"|awk -F: '{print $2}'`
+  ip=`echo "${host}"|sed 's/:[^:]*//g'`
+  country=`echo "${host}"|sed 's/[^:]*://g'`
   uuid1=`uuidgen`
   uuid2=`uuidgen`
   echo "
