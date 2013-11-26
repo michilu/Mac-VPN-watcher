@@ -28,7 +28,8 @@ for mirror in ${VPNGATE_MIRRORS}; do
 VPNGATE_IP_L2TP=`
   curl -f -s --connect-timeout ${CONNECT_TIMEOUT} ${mirror}/en/ -H 'Accept-Encoding: gzip,deflate,sdch' -H 'Cache-Control: max-age=0' --compressed|\
   grep "^<td class='vg_table_row_[01]' style='text-align: center;'><img src='../images/flags/"|\
-  grep L2TP/IPsec|sed -e "s/.*flags\/\(.\{2\}\)\.png.*<\/td>.*>\([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\)<.*/\2:\1/g"\
+  grep L2TP/IPsec|\
+  sed -e "s/.*flags\/\(.\{2\}\)\.png.*<\/td>.*>\([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\)<.*/\2:\1/g"\
   `
 if [ ${PIPESTATUS[0]} -ne 0 ]; then
   continue
