@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 name=VPN-Gate-L2TP-`date +%Y-%m-%d`
-uuid0=`uuidgen`
 output=${name}.mobileconfig
 
 read -rd '' input
@@ -14,6 +13,7 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 	<array>
 " > ${output}
 
+uuid0=`uuidgen`
 index=0
 for ip in ${input}; do
   uuid1=`uuidgen`
