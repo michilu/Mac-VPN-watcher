@@ -1,6 +1,7 @@
+set PING to "http://sample.appspot.com/"
 on isOnline()
 	try
-		do shell script "curl -s -I --connect-timeout 10 http://sample.appspot.com/"
+		do shell script "curl -s -I --connect-timeout 10 " & PING
 		return true
 	on error errStr
 		return false
