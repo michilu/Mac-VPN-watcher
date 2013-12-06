@@ -8,7 +8,7 @@ on isOnline()
 	end try
 end isOnline
 on setOrderService()
-	set orderVPN to do shell script "networksetup -listnetworkserviceorder |grep '^([0-9]'|nl|grep '^ *[0-9]*	*([0-9]*) VPN.*$'|tail -n 1|awk '{print $1}'"
+	set orderVPN to do shell script "networksetup -listnetworkserviceorder |grep '^([0-9]'|nl|grep '^ *[0-9]*	*([0-9]*) VPN Gate.*$'|tail -n 1|awk '{print $1}'"
 	set orderWiFi to do shell script "networksetup -listnetworkserviceorder |grep '^([0-9]'|nl|grep '^ *[0-9]*	*([0-9]*) Wi-Fi$'|awk '{print $1}'"
 	if not orderVPN < orderWiFi then
 		do shell script "echo networksetup -ordernetworkservices `networksetup -listnetworkserviceorder |grep '^([0-9]'|sed -e 's/([0-9]*) //g'|grep -v '^Wi-Fi$'|sed 's/.*/\"&\"/'|tr '
@@ -29,7 +29,7 @@ on idle
 		return 30
 	end if
 	setOrderService()
-	set listnetwork to do shell script "networksetup -listnetworkserviceorder |grep '^([0-9]'|sed -e 's/([0-9]*) //g'|grep '^VPN'|tr '
+	set listnetwork to do shell script "networksetup -listnetworkserviceorder |grep '^([0-9]'|sed -e 's/([0-9]*) //g'|grep '^VPN Gate'|tr '
 ' '/'"
 	set text item delimiters of AppleScript to "/"
 	set serviceNames to rest of reverse of text items of listnetwork
