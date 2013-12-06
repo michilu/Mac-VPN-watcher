@@ -1,3 +1,4 @@
+--set PING to "http://www.facebook.com/unsupportedbrowser"
 set PING to "http://sample.appspot.com/"
 on isOnline()
 	try
