@@ -65,6 +65,7 @@ for host in ${input}; do
   country=`echo "${host}"|sed 's/[^:]*://g'`
   uuid1=`uuidgen`
   uuid2=`uuidgen`
+  echo "VPN Gate ${index}: ${ip} of ${country}"
   echo "
 		<dict>
 			<key>IPSec</key>
