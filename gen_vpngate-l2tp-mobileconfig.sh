@@ -59,8 +59,11 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 " > ${output}
 
 uuid0=`uuidgen`
-index=0
+index=1
 for host in ${input}; do
+  if [ $index -gt 16 ]; then
+    break
+  fi
   ip=`echo "${host}"|sed 's/:[^:]*//g'`
   country=`echo "${host}"|sed 's/[^:]*://g'`
   uuid1=`uuidgen`
