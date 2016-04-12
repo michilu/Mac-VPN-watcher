@@ -64,8 +64,8 @@ for host in ${input}; do
   if [ $index -gt 16 ]; then
     break
   fi
-  ip=`echo "${host}"|sed 's/:[^:]*//g'`
   country=`echo "${host}"|sed 's/[^:]*://g'`
+  ip=`echo "${host}"|sed 's/:[^:]*//g'`
   uuid1=`uuidgen`
   uuid2=`uuidgen`
   echo "VPN Gate ${index}: ${ip} of ${country}"
