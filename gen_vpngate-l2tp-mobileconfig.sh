@@ -65,6 +65,9 @@ for host in ${input}; do
     break
   fi
   country=`echo "${host}"|sed 's/[^:]*://g'`
+  if [ ${country} = "CN" ]; then
+    continue
+  fi
   ip=`echo "${host}"|sed 's/:[^:]*//g'`
   uuid1=`uuidgen`
   uuid2=`uuidgen`
