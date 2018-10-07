@@ -7,7 +7,7 @@ fi
 }
 
 case $1 in
-  "" ) hostname="http://www.vpngate.net" ;;
+  "" ) hostname="https://www.vpngate.net" ;;
    * ) hostname=$1 ;;
 esac
 
@@ -16,7 +16,7 @@ output=${name}.mobileconfig
 CONNECT_TIMEOUT=10
 
 VPNGATE_MIRRORS=`\
-  curl -f -s ${hostname}/en/sites.aspx|\
+  curl -fL -s ${hostname}/en/sites.aspx|\
   grep "^<li><strong><span style='font-size: medium'><a href='"|\
   sed -e "s/<li><strong><span style='font-size: medium'><a href='\([^']*\)\/en\/.*/\1/g"\
   `
